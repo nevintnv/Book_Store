@@ -12,8 +12,8 @@ namespace Book.Models.ViewModels
 {
     public class productVM
     {
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
         [ValidateNever]
-        public IEnumerable<SelectListItem> objCategory { get; set; }
+        public IEnumerable<SelectListItem>? objCategory { get; set; }
     }
 }

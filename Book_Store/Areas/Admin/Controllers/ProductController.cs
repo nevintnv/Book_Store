@@ -1,12 +1,10 @@
-﻿using Book.DataAccess.Repository;
-using Book.DataAccess.Repository.IRepository;
+﻿using Book.DataAccess.Repository.IRepository;
 using Book.Models.Models;
 using Book.Models.ViewModels;
 using Book.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using NuGet.Protocol.Plugins;
 using System.Data;
 
 namespace Book_Store.Areas.Admin.Controllers
