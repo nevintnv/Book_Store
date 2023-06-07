@@ -1,5 +1,4 @@
-﻿using Book.Models;
-using Book.Models.Models;
+﻿using Book.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Book.DataAccess.Repository.IRepository
 {
-    public interface ICompanyRepository : IRepository<Company>
+    public interface ICategoryRepository : IRepository<Category>
     {
-        void Update(Company obj);
+        void Update(Category obj);
     }
 }

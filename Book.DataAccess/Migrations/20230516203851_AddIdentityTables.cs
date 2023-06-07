@@ -68,7 +68,8 @@ namespace Book.DataAccess.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete
+                        : ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

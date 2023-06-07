@@ -14,6 +14,7 @@ namespace Book.DataAccess.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product>  Products { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
         
 
@@ -25,6 +26,24 @@ namespace Book.DataAccess.Data
                 new Category { CategoryId = 1, Name = "Action", DisplayOrder = 1 },
                 new Category { CategoryId = 2, Name = "SciFi", DisplayOrder = 2 },
                 new Category { CategoryId = 3, Name = "History", DisplayOrder = 3 }
+                );
+
+
+            modelBuilder.Entity<Company>().HasData(
+                new Company 
+                { 
+                    Id = 1, Name = "Bhairava", StreetAddress = "RS Puram",City="Coimbatore",PostalCode="641002",State = "Tamil Nadu",PhoneNumber="9988998877" 
+                },
+                new Company
+                {
+                    Id = 2,
+                    Name = "Cheran",
+                    StreetAddress = "GandhiPuram",
+                    City = "Coimbatore",
+                    PostalCode = "641007",
+                    State = "Tamil Nadu",
+                    PhoneNumber = "7656654422"
+                }
                 );
 
             modelBuilder.Entity<Product>().HasData(
