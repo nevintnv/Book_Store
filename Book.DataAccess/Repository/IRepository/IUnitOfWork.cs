@@ -11,6 +11,8 @@ namespace Book.DataAccess.Repository.IRepository
         ICategoryRepository Category { get; }
         IProductRepository Product { get; }
         ICompanyRepository Company { get; }
+        IShoppingRepository Shopping { get; }
+        IApplicationUserRepository ApplicationUser { get; }
 
         void Save();
     }
