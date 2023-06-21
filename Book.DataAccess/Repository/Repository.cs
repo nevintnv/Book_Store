@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Book.DataAccess.Data;
@@ -26,7 +27,7 @@ namespace Book.DataAccess.Repository
         }
 
 
-        public T Get(System.Linq.Expressions.Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
             query = query.Where(filter);
@@ -43,9 +44,13 @@ namespace Book.DataAccess.Repository
         }
 
         //Category,CoverType
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
+            if(filter != null)
+            { 
+            query = query.Where(filter);
+            }
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties
