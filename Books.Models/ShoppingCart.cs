@@ -25,5 +25,8 @@ namespace Book.Models
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
         public ApplicationUser?  applicationUser { get; set; }
+
+        [NotMapped]
+        public double Price { get; set; }
     }
 }

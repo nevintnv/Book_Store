@@ -29,11 +29,50 @@ namespace Book_Store.Areas.Customer.Controllers
             };
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                var price = GetCartPrice(cart);
-                ShoppingCartVM.OrdertoDo += (price * cart.Count);
+                cart.Price = GetCartPrice(cart);
+                ShoppingCartVM.OrdertoDo += (cart.Price * cart.Count);
             }
             return View(ShoppingCartVM);
         }
+
+        public IActionResult Summary()
+        {
+            return View();
+        }
+        public IActionResult plus(int cartId) 
+        {
+            var result = _unitOfWork.Shopping.Get(u => u.Id == cartId);
+            result.Count += 1;
+            _unitOfWork.Shopping.Update(result);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult minus(int cartId) 
+        {
+            var result = _unitOfWork.Shopping.Get(u=>u.Id == cartId);
+            if(result.Count <= 1)
+            {
+                _unitOfWork.Shopping.Remove(result);
+            }
+            else
+            {
+                result.Count -= 1;
+                _unitOfWork.Shopping.Update(result);
+            }
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult remove(int cartId) 
+        {
+            var result = _unitOfWork.Shopping.Get(u => u.Id == cartId);
+            _unitOfWork.Shopping.Remove(result);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
         private double GetCartPrice(ShoppingCart shoppingCart) 
         {
