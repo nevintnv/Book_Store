@@ -24,22 +24,48 @@ namespace Book_Store.Areas.Customer.Controllers
 
             ShoppingCartVM = new()
             {
-                ShoppingCartList = _unitOfWork.Shopping.GetAll(u => u.ApplicationUserId == userId, 
-                includeProperties: "Product")
+                ShoppingCartList = _unitOfWork.Shopping.GetAll(u => u.ApplicationUserId == userId,
+                includeProperties: "Product"),
+                OrderHeader = new()
             };
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetCartPrice(cart);
-                ShoppingCartVM.OrdertoDo += (cart.Price * cart.Count);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
             return View(ShoppingCartVM);
         }
 
         public IActionResult Summary()
         {
-            return View();
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ShoppingCartVM = new()
+            {
+                ShoppingCartList = _unitOfWork.Shopping.GetAll(u => u.ApplicationUserId == userId,
+                includeProperties: "Product"),
+                OrderHeader = new()
+            };
+            ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+
+            ShoppingCartVM.OrderHeader.Name = ShoppingCartVM.OrderHeader.ApplicationUser.Name;
+            ShoppingCartVM.OrderHeader.PhoneNumber = ShoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
+            ShoppingCartVM.OrderHeader.StreetAddress = ShoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
+            ShoppingCartVM.OrderHeader.City = ShoppingCartVM.OrderHeader.ApplicationUser.City;
+            ShoppingCartVM.OrderHeader.State = ShoppingCartVM.OrderHeader.ApplicationUser.State;
+            ShoppingCartVM.OrderHeader.PostalCode = ShoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
+
+            foreach (var cart in ShoppingCartVM.ShoppingCartList)
+            {
+                cart.Price = GetCartPrice(cart);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+            }
+            return View(ShoppingCartVM);
         }
-        public IActionResult plus(int cartId) 
+
+        // Plus button in cart function //
+        public IActionResult plus(int cartId)
         {
             var result = _unitOfWork.Shopping.Get(u => u.Id == cartId);
             result.Count += 1;
@@ -48,10 +74,11 @@ namespace Book_Store.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult minus(int cartId) 
+        // Minus button in cart function //
+        public IActionResult minus(int cartId)
         {
-            var result = _unitOfWork.Shopping.Get(u=>u.Id == cartId);
-            if(result.Count <= 1)
+            var result = _unitOfWork.Shopping.Get(u => u.Id == cartId);
+            if (result.Count <= 1)
             {
                 _unitOfWork.Shopping.Remove(result);
             }
@@ -64,7 +91,8 @@ namespace Book_Store.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult remove(int cartId) 
+        // Delete button in cart function //
+        public IActionResult remove(int cartId)
         {
             var result = _unitOfWork.Shopping.Get(u => u.Id == cartId);
             _unitOfWork.Shopping.Remove(result);
@@ -74,15 +102,15 @@ namespace Book_Store.Areas.Customer.Controllers
 
 
 
-        private double GetCartPrice(ShoppingCart shoppingCart) 
+        private double GetCartPrice(ShoppingCart shoppingCart)
         {
-            if(shoppingCart.Count <=50) 
+            if (shoppingCart.Count <= 50)
             {
                 return shoppingCart.Product.Price;
             }
             else
             {
-                if(shoppingCart.Count<=100)
+                if (shoppingCart.Count <= 100)
                 {
                     return shoppingCart.Product.Price50;
                 }
