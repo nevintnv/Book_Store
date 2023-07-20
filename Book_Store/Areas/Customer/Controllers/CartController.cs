@@ -137,7 +137,7 @@ namespace Book_Store.Areas.Customer.Controllers
                 {
                     var SessionLineItem = new SessionLineItemOptions
                     {
-                        PriceData = new SessionLineItemPriceDataOptions()
+                        PriceData = new SessionLineItemPriceDataOptions
                         {
                             UnitAmount = (long)(item.Price * 100),
                             Currency = "usd",
