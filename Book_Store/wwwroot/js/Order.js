@@ -1,13 +1,36 @@
 var DataTable
 
 $(document).ready(function () {
-    loadDataTable();
+
+    var url = window.location.search;
+    if (url.includes("inprocess")) {
+        loadDataTable("inprocess");
+    }
+    else {
+        if (url.includes("completed")) {
+            loadDataTable("completed");
+        }
+        else {
+            if (url.includes("pending")) {
+                loadDataTable("pending");
+            }
+            else {
+                if (url.includes("approved")) {
+                    loadDataTable("approved");
+                }
+                else {
+                    loadDataTable("all");
+                }
+            }
+        }
+    }
+
 });
 
-function loadDataTable() {
+function loadDataTable(status) {
 
     DataTable = $('#myTable').DataTable({
-        "ajax": { url: '/admin/Order/GetAll' },
+        "ajax": { url: '/admin/order/GetAll?status=' + status },
         "columns":
             [
                 { data: 'id',"width":"5%" },
