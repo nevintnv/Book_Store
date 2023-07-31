@@ -3,22 +3,30 @@ var DataTable
 $(document).ready(function () {
 
     var url = window.location.search;
-    if (url.includes("inprocess")) {
+    if (url.includes("inprocess")) 
+    {
         loadDataTable("inprocess");
     }
-    else {
-        if (url.includes("completed")) {
+    else
+    {
+        if (url.includes("completed"))
+        {
             loadDataTable("completed");
         }
-        else {
-            if (url.includes("pending")) {
+        else
+        {
+            if (url.includes("pending"))
+            {
                 loadDataTable("pending");
             }
-            else {
-                if (url.includes("approved")) {
+            else
+            {
+                if (url.includes("approved"))
+                {
                     loadDataTable("approved");
                 }
-                else {
+                else
+                {
                     loadDataTable("all");
                 }
             }
@@ -30,13 +38,13 @@ $(document).ready(function () {
 function loadDataTable(status) {
 
     DataTable = $('#myTable').DataTable({
-        "ajax": { url: '/admin/order/GetAll?status=' + status },
+        "ajax": { url: '/admin/order/getAll?status=' + status },
         "columns":
             [
                 { data: 'id',"width":"5%" },
-                { data: 'name', "width": "15%" },
+                { data: 'name', "width": "25%" },
                 { data: 'phoneNumber', "width": "20%" },
-                { data: 'applicationUser.email', "width": "15%" },
+                { data: 'applicationUser.email', "width": "20%" },
                 { data: 'orderStatus', "width": "10%" },
                 { data: 'orderTotal', "width": "10%" },
 
@@ -48,7 +56,7 @@ function loadDataTable(status) {
                             <a href ="/admin/Order/details?orderId=${data}" class = "btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i></a>
                          </div>`
                     },
-                    "width": "25%"
+                    "width": "10%"
                 }
             ]
         
